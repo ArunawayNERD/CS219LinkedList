@@ -6,7 +6,6 @@
  */
 #include <iostream>
 #include <cstdlib>
-#include <time.h>
 #include "list.h"
 using namespace std;
 
@@ -68,16 +67,21 @@ void list::push_tail(int nw_data)
 
 int list::pop_head()
 {
+    node *old_head = head->nxt_nd;
     int head_data = head->nxt_nd->data;
     
     head->nxt_nd = head->nxt_nd->nxt_nd;
     
+    delete old_head;
+    old_head = 0;
+
     return head_data;
 }
 
 int list::pop_tail()
 {
     int tail_data;
+    node *old_tail;
     node *crt_ptr;
     int length = size();
 
@@ -91,10 +95,13 @@ int list::pop_tail()
             crt_ptr = crt_ptr->nxt_nd;
         }
      }
-
+    old_tail = crt_ptr->nxt_nd;
     tail_data = crt_ptr->nxt_nd->data;
     
     crt_ptr->nxt_nd = tail;
+
+    delete old_tail;
+    old_tail = 0;
 
     return tail_data;
 }
